@@ -1,55 +1,54 @@
 # Pull Request Analysis
 
-## 2.1 PR Selection
-
 **Repository:** beetbox/beets  
 **Language:** Python  
 
-### Selected Pull Requests
-1. PR #4199 – Duplicate Keys Integration  
-2. PR #3214 – Deezer Plugin Integration  
+### Chosen Pull Requests:
+1. **PR #3279 – Duplicate Keys & Query Enhancements**  
+2. **PR #3214 – Deezer Plugin Integration**
 
 ---
 
 ## PR Comparison Summary
 
-| Feature | PR #4199 | PR #3214 |
-|-------|----------|----------|
+| Feature | **PR #3279** | **PR #3214** |
+|-------|--------------|--------------|
 | Type | Core Logic Enhancement | Plugin Feature |
-| Modified Files | importer.py, library.py | beetsplug/deezer.py |
+| Modified Files | importer logic, query handling | beetsplug/deezer.py |
 | Complexity | High | Medium |
 | Impact Scope | Global | Local |
 
 ---
 
-## PR #4199: Duplicate Keys & Query Enhancements
+## PR #3279: Duplicate Keys & Query Enhancements
 
 ### Summary
-This PR removes hardcoded duplicate detection logic and introduces a configurable `duplicate_keys` option. It also enhances the query language by supporting exact (`=`) and regex (`~`) matches.
+This pull request improves Beets’ duplicate detection mechanism by removing hardcoded rules and introducing a configurable `duplicate_keys` option. It also enhances the query language by allowing exact (`=`) and regular expression (`~`) based matching for more precise searches.
 
 ### Key Changes
-- Added `duplicate_keys` to default configuration
-- Refactored importer duplicate detection logic
-- Enhanced query parser to support strict matching
+- Added `duplicate_keys` as a configurable option in the default settings.
+- Refactored importer duplicate detection logic to rely on user-defined keys.
+- Extended the query parser to support strict and regex-based matching.
 
 ### Impact
-- Affects importer workflow
-- Alters query parsing globally
-- Enables user-defined duplication constraints
+- Directly affects the importer workflow.
+- Modifies query parsing behavior across the application.
+- Gives users greater control over how duplicates are detected.
 
 ---
 
-## PR #3214: Deezer Plugin
+## PR #3214: Deezer Plugin Integration
 
 ### Summary
-Introduces Deezer as a metadata source plugin for Beets, allowing track and album tagging via Deezer’s API.
+This pull request introduces Deezer as a new metadata source plugin for Beets. It allows users to tag tracks and albums using metadata fetched directly from Deezer’s API, improving tagging accuracy for certain music collections.
 
 ### Key Changes
-- New plugin file: `beetsplug/deezer.py`
-- Added tests and documentation
-- Maps Deezer API responses to Beets item model
+- Added a new plugin file: `beetsplug/deezer.py`.
+- Implemented Deezer API integration for album and track metadata.
+- Added supporting tests and documentation.
+- Mapped Deezer API responses to Beets’ internal item model.
 
 ### Impact
-- Optional and isolated
-- Improves tagging success for certain music catalogs
-
+- Fully optional and isolated from core logic.
+- Only active when the plugin is enabled in the configuration.
+- Improves metadata quality for music well cataloged on Deezer.
