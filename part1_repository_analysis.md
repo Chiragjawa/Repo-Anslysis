@@ -1,5 +1,4 @@
 # Part 1: Repository Analysis  
-1.1: Python Repository Selection
 
 ## Identifying Python Primary Repositories
 
