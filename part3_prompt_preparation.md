@@ -6,13 +6,10 @@
 ---
 
 ## Repository Context
-Beets is a command-line based music library management system written in Python. It is mainly
-used by power users who want full control over their music metadata and file organization. Beets
-stores music information in a local database and provides powerful query and tagging features.
-The system is highly extensible through a plugin-based architecture, where new features can be
-added without modifying the core logic. Plugins can introduce new commands, metadata sources, or
-query types. This design allows Beets to grow while keeping the core system stable.
----
+
+Beets is a Python-based command-line music library management system. Power users who desire complete control over their file organization and music metadata are the primary users. Beets offers robust query and tagging capabilities in addition to storing music data in a local database.
+Because of its plugin-based architecture, which allows for the addition of new features without changing the essential logic, the system is very extensible. Plugins have the ability to add new query types, metadata sources, and commands. Beets can expand thanks to this design, which maintains the stability of the core system.
+
 
 ## Pull Request Description
 This pull request introduces a new Playlist plugin that allows users to query their music library
