@@ -1,35 +1,43 @@
-# Prompt Preparation
+# 3. Prompt Preparation
 
 ## Selected PR
-PR #4199 – Duplicate Keys & Query Enhancements
+**Selected Pull Request:** PR #3145 – Playlist Plugin  
 
 ---
 
 ## Repository Context
+Beets is a command-line based music library management system written in Python. It is mainly
+used by power users who want full control over their music metadata and file organization. Beets
+stores music information in a local database and provides powerful query and tagging features.
 
-Beets is a command-line music library management system written in Python. It actively manages metadata by fixing tags, renaming files, and maintaining a local SQLite database. The system targets power users comfortable with CLI tools and YAML-based configuration.
-
+The system is highly extensible through a plugin-based architecture, where new features can be
+added without modifying the core logic. Plugins can introduce new commands, metadata sources, or
+query types. This design allows Beets to grow while keeping the core system stable.
 ---
 
 ## Pull Request Description
+This pull request introduces a new Playlist plugin that allows users to query their music library
+using M3U playlist files.
 
 ### Previous Behavior
-Duplicate detection during import was based on hardcoded fields such as artist and title, leading to false positives.
+Before this PR, Beets users could not directly use playlists as part of library queries. Even if users already had playlists created in external music players, Beets had no way to interpret or search tracks based on those playlists.
 
 ### New Behavior
-Users can now configure which fields define uniqueness using `duplicate_keys`. The query system is enhanced to support exact (`=`) and regex (`~`) matches.
+Users can now run:
+- `beet ls playlist:myplaylist`
+- `beet ls playlist:/path/to/playlist.m3u`
 
+Beets reads the playlist file and returns all matching tracks from the library.
 ---
 
 ## Acceptance Criteria
 
-| ID | Criteria | Expected Behavior |
-|----|---------|------------------|
-| AC1 | Config Loading | Uses `duplicate_keys` or defaults |
-| AC2 | Exact Match | `field=value` is strict |
-| AC3 | Regex Match | `field~pattern` uses regex |
-| AC4 | Custom Duplicate Logic | Uses configured keys |
-| AC5 | Backward Compatibility | `:` queries still fuzzy |
+| ID | Criteria |
+|----|---------|
+| 1 | `playlist:` is recognized as a valid query |
+| 2 | Playlist name or full path is supported |
+| 3 | Relative paths are handled via config |
+| 4 | Missing playlists return empty results |
 
 ---
 
@@ -37,24 +45,40 @@ Users can now configure which fields define uniqueness using `duplicate_keys`. T
 
 | Case | Scenario | Expected Handling |
 |-----|----------|------------------|
-| EC1 | Missing Keys | Ignored safely |
-| EC2 | Case Sensitivity | Matches DB behavior |
-| EC3 | Empty Keys | No duplicate detection |
+| 1 | Missing Playlist File | Return empty result set |
+| 2 | Comment Lines in Playlist | Ignore commented lines |
+| 3 | Invalid File Paths | Skip invalid entries safely |
+| 4 | Large Playlists | Query still executes correctly |
 
 ---
 
-## Initial Prompt
+## 3.1.5 Initial Prompt (300–500 words)
 
-You are an expert Python developer contributing to the Beets open-source music library.
+You are a Python developer contributing to the open-source project Beets, a command-line music
+library management system. Beets allows users to manage large music collections by maintaining a
+local database of music files and metadata. The system is extensible through plugins that add new
+features without modifying the core logic.
 
-**Objective:** Implement configurable duplicate detection and enhance query parsing to support exact and regex matching.
+Your task is to implement a new plugin that enables users to query their Beets library using M3U
+playlist files. Currently, Beets does not support querying tracks based on playlists, even though
+many users already organize their music using them. This feature should integrate playlist-based
+workflows into Beets in a clean and optional way.
 
-**Tasks:**
-- Update query parser to support `=` and `~`
-- Add `duplicate_keys` to default config
-- Refactor importer duplicate detection logic
+The plugin should introduce a new query type called `playlist`. Users must be able to reference a
+playlist either by providing an absolute path to an `.m3u` file or by providing a playlist name that
+is resolved from a configured playlist directory. The plugin should read the playlist file, ignore
+comments and invalid lines, and extract file paths listed in the playlist.
 
-**Constraints:**
-- Maintain backward compatibility
-- Add tests validating exact match behavior
+Relative paths inside playlists must be handled carefully. The implementation should support
+configurable behavior that determines whether relative paths are resolved relative to the music
+library directory, the playlist file location, or a fixed directory defined by the user.
+
+The plugin must match playlist entries against Beets library items using file paths and return the
+correct query results. If the playlist file does not exist or contains no valid entries, the system
+should return an empty result set without raising errors.
+
+The implementation should be isolated from the core system, activate only when enabled, and must
+not break existing queries or plugins. Unit tests should be added to verify name-based queries,
+path-based queries, missing playlist handling, and relative path resolution. Documentation should
+also be included to explain usage and configuration options.
 
