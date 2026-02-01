@@ -9,7 +9,6 @@
 Beets is a command-line based music library management system written in Python. It is mainly
 used by power users who want full control over their music metadata and file organization. Beets
 stores music information in a local database and provides powerful query and tagging features.
-
 The system is highly extensible through a plugin-based architecture, where new features can be
 added without modifying the core logic. Plugins can introduce new commands, metadata sources, or
 query types. This design allows Beets to grow while keeping the core system stable.
@@ -54,31 +53,15 @@ Beets reads the playlist file and returns all matching tracks from the library.
 
 ## 3.1.5 Initial Prompt (300–500 words)
 
-You are a Python developer contributing to the open-source project Beets, a command-line music
-library management system. Beets allows users to manage large music collections by maintaining a
-local database of music files and metadata. The system is extensible through plugins that add new
-features without modifying the core logic.
+You work as a Python developer on the command-line music library management system Beets, an open-source project. By keeping a local database of music files and metadata, Beets enables users to manage sizable music collections. Plugins that add new features without changing the fundamental logic allow the system to be expanded.
 
-Your task is to implement a new plugin that enables users to query their Beets library using M3U
-playlist files. Currently, Beets does not support querying tracks based on playlists, even though
-many users already organize their music using them. This feature should integrate playlist-based
-workflows into Beets in a clean and optional way.
+Your job is to create a new plugin that lets users use M3U playlist files to query their Beets library. Although many users already use playlists to organize their music, Beets does not currently support querying tracks based on playlists. This feature ought to smoothly and optionally incorporate playlist-based workflows into Beets.
 
-The plugin should introduce a new query type called `playlist`. Users must be able to reference a
-playlist either by providing an absolute path to an `.m3u` file or by providing a playlist name that
-is resolved from a configured playlist directory. The plugin should read the playlist file, ignore
-comments and invalid lines, and extract file paths listed in the playlist.
+A new query type named `playlist` should be introduced by the plugin. Either an absolute path to a `.m3u` file or a playlist name that is resolved from a configured playlist directory must be able to be used by users to refer to a playlist. The plugin should read the playlist file, extract the file paths specified in the playlist, and disregard comments and invalid lines.
 
-Relative paths inside playlists must be handled carefully. The implementation should support
-configurable behavior that determines whether relative paths are resolved relative to the music
-library directory, the playlist file location, or a fixed directory defined by the user.
+Care must be taken when managing relative paths within playlists. Whether relative paths are resolved in relation to the music library directory, the playlist file location, or a user-defined fixed directory should be supported by the implementation.
 
-The plugin must match playlist entries against Beets library items using file paths and return the
-correct query results. If the playlist file does not exist or contains no valid entries, the system
-should return an empty result set without raising errors.
+The plugin must use file paths to compare playlist entries with Beets library items and provide accurate query results. The system should return an empty result set without raising any errors if the playlist file is invalid or does not exist.
 
-The implementation should be isolated from the core system, activate only when enabled, and must
-not break existing queries or plugins. Unit tests should be added to verify name-based queries,
-path-based queries, missing playlist handling, and relative path resolution. Documentation should
-also be included to explain usage and configuration options.
+The implementation must not interfere with already-existing queries or plugins, be isolated from the main system, and only activate when enabled. To confirm name-based queries, path-based queries, handling of missing playlists, and relative path resolution, unit tests ought to be included. Additionally, usage and configuration options should be explained in the documentation.
 
